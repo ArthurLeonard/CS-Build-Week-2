@@ -48,9 +48,7 @@ class Player:
 		# shop to well path : 'e,e, n, e, e'
 		self.vital_rooms = {
 						'shop': {'room_id': 1, 'coordinates': '59, 60'},  
-						#{'room_id': 1, 'title': 'Shop', 'description': "You are standing in a small shop. A sign behind the mechanical shopkeeper says 'WILL PAY FOR TREASURE'.", 'coordinates': '(59,60)', 'elevation': 0, 'terrain': 'NORMAL', 'players': ['Wizard Omar'], 'items': [], 'exits': ['e'], 'cooldown': 15.0, 'errors': [], 'messages': ['You have walked west.']}
-						#12131
-                    	'mine': None,
+						'mine': {'room_id': 272, 'coordinates': '53, 58'},
                         'name': {'room_id': 467, 'coordinates': '68, 47'},  # pirate's room to change name
                         'well': {'room_id': 55, 'coordinates': '63, 61'},   # final stop to get the hint
 
@@ -213,54 +211,3 @@ while True:
 			player.move('s')
 			print('path from shop so far', path_from_shop)
 
-# def move(self, direction: str, room: int = None, fly: bool = False) -> dict:
-#         """Move player in the given <direction>. Fly if able."""
-#         # Get cooldown bonus by being a wise explorer.
-#         if room is not None:
-#             data = {"direction": f'{direction}', "next_room_id": f"{room}"}
-#         else:
-#             data = {"direction": f'{direction}'}
-#         suffix = 'api/adv/move/'
-#         if fly:
-#             suffix = 'api/adv/fly/'
-#         new_room = self.make_request(suffix=suffix, header=self.auth, data=data, http='post')
-#         self.save_place(new_room)
-#         # Print status info.
-#         print(f'\nIn room {new_room["room_id"]}. \nCurrent cooldown: {self.cooldown}')
-#         print(f'Items: {[item["name"] for item in self.items_]}, '
-#               f'\nPlaces: {[(x, y["room_id"]) for x, y in self.places.items() if y]}, '
-#               f'\nGold: {self.gold} Lambda Coins: {self.balance_}'
-#               f'\nEncumbrance: {self.encumbrance}, Strength: {self.strength}')
-#         # Pick up items if we can.
-#         if new_room['items'] and not self.encumbered:
-#             for item in new_room['items']:
-#                 self.take(item)
-#         return new_room
-
-
-    # def make_request(self, suffix: str, http: str, data: dict = None, header: dict = None) -> dict:
-    #     """Make API request to game server, return json response."""
-    #     # Wait for cooldown period to expire.
-    #     while (datetime.now() - self.then).seconds < self.cooldown + .1:
-    #         pass
-    #     if http == 'get':
-    #         response = requests.get(URL + suffix, headers=header, data=data)
-    #     elif http == 'post':
-    #         response = requests.post(URL + suffix, headers=header, json=data)
-
-    #     if response.raise_for_status():  # If status 4xx or 5xx, raise error.
-    #         self.auto_play()
-    #     response = response.json()
-
-    #     # Handle response.
-    #     if 'cooldown' in response:
-    #         self.cooldown = float(response['cooldown'])
-    #     if 'errors' in response:
-    #         if response['errors']:
-    #             print(f'\nError: {response["errors"]}')
-    #     if 'messages' in response:
-    #         if response['messages']:
-    #             print(f'\n{" ".join(response["messages"])}')
-
-    #     self.then = datetime.now()  # Reset timer.
-    #     return response
